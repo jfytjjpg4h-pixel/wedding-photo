@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHOTO GALLERY</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
+                 "Yu Gothic", sans-serif;
+    background: linear-gradient(135deg, #111 0%, #252525 50%, #111 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: min(680px, 100%);
+    background: rgba(255,255,255,.97);
+    color: #222;
+    border-radius: 22px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    text-align: center;
+  }
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(28px, 7vw, 46px);
+    letter-spacing: .08em;
+  }
+  .sub {
+    margin: 0 0 28px;
+    color: #666;
+    font-size: 14px;
+  }
+  .lock {
+    font-size: 42px;
+    margin-bottom: 8px;
+  }
+  input {
+    width: 100%;
+    max-width: 420px;
+    padding: 15px 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+  }
+  input:focus { border-color: #333; }
+  button {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin: 12px auto 0;
+    padding: 15px;
+    border: 0;
+    border-radius: 12px;
+    background: #111;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  button:active { transform: scale(.99); }
+  #error {
+    min-height: 22px;
+    margin: 10px 0 0;
+    color: #d22;
+    font-size: 14px;
+  }
+  #photoArea { display: none; }
+  #photoArea img {
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    display: block;
+    margin-top: 18px;
+  }
+  .back {
+    margin-top: 14px;
+    background: transparent;
+    color: #555;
+    font-size: 14px;
+  }
+  .note {
+    margin-top: 20px;
+    color: #888;
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <section id="loginArea">
+      <div class="lock">🔒</div>
+      <h1>PHOTO GALLERY</h1>
+      <p class="sub">写真を見るにはパスワードを入力してください</p>
+      <input id="password" type="password" inputmode="numeric"
+             placeholder="パスワード" autocomplete="off">
+      <button onclick="unlock()">写真を見る</button>
+      <div id="error"></div>
+      <p class="note">QRコードからアクセスありがとうございます。</p>
+    </section>
+
+    <section id="photoArea">
+      <h1>PHOTO</h1>
+      <p class="sub">SPECIAL PHOTO</p>
+      <img src="photo.jpeg" alt="写真">
+      <button class="back" onclick="lockAgain()">🔒 ロックする</button>
+    </section>
+  </main>
+
+<script>
+  // デモ用パスワード：1234
+  // 本番で変更するときは、下の "1234" を好きな文字列に変更してください。
+  const PASSWORD = "1234";
+
+  function unlock() {
+    const input = document.getElementById("password");
+    const error = document.getElementById("error");
+
+    if (input.value === PASSWORD) {
+      document.getElementById("loginArea").style.display = "none";
+      document.getElementById("photoArea").style.display = "block";
+      error.textContent = "";
+      input.value = "";
+      window.scrollTo({top: 0, behavior: "smooth"});
+    } else {
+      error.textContent = "パスワードが違います。";
+      input.select();
+    }
+  }
+
+  function lockAgain() {
+    document.getElementById("photoArea").style.display = "none";
+    document.getElementById("loginArea").style.display = "block";
+  }
+
+  document.getElementById("password").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") unlock();
+  });
+</script>
+</body>
+</html>
