@@ -1,149 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PHOTO GALLERY</title>
-<style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN",
-                 "Yu Gothic", sans-serif;
-    background: linear-gradient(135deg, #111 0%, #252525 50%, #111 100%);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .card {
-    width: min(680px, 100%);
-    background: rgba(255,255,255,.97);
-    color: #222;
-    border-radius: 22px;
-    padding: 28px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.35);
-    text-align: center;
-  }
-  h1 {
-    margin: 0 0 8px;
-    font-size: clamp(28px, 7vw, 46px);
-    letter-spacing: .08em;
-  }
-  .sub {
-    margin: 0 0 28px;
-    color: #666;
-    font-size: 14px;
-  }
-  .lock {
-    font-size: 42px;
-    margin-bottom: 8px;
-  }
-  input {
-    width: 100%;
-    max-width: 420px;
-    padding: 15px 16px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    font-size: 18px;
-    text-align: center;
-    outline: none;
-  }
-  input:focus { border-color: #333; }
-  button {
-    display: block;
-    width: 100%;
-    max-width: 420px;
-    margin: 12px auto 0;
-    padding: 15px;
-    border: 0;
-    border-radius: 12px;
-    background: #111;
-    color: #fff;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  button:active { transform: scale(.99); }
-  #error {
-    min-height: 22px;
-    margin: 10px 0 0;
-    color: #d22;
-    font-size: 14px;
-  }
-  #photoArea { display: none; }
-  #photoArea img {
-    width: 100%;
-    height: auto;
-    border-radius: 14px;
-    display: block;
-    margin-top: 18px;
-  }
-  .back {
-    margin-top: 14px;
-    background: transparent;
-    color: #555;
-    font-size: 14px;
-  }
-  .note {
-    margin-top: 20px;
-    color: #888;
-    font-size: 12px;
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171717">
+  <title>ADMISSION PASS</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px 16px;
+      background:
+        radial-gradient(ellipse at 50% 20%, #29333a 0, #151c22 48%, #0b1014 100%);
+      color: #e9e8e2; font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+    .wrap { width: min(100%, 480px); }
+    .panel {
+      position: relative; overflow: hidden; padding: 42px 30px 30px;
+      border: 1px solid #59656b; border-radius: 3px;
+      background: linear-gradient(155deg, #202a30 0%, #141c21 72%);
+      box-shadow: 0 28px 80px #0009;
+    }
+    .panel:before {
+      content: ""; position: absolute; width: 260px; height: 260px;
+      border: 1px solid #ffffff0b; border-radius: 50%;
+      top: -145px; right: -110px;
+      box-shadow: 0 0 0 24px #ffffff05, 0 0 0 48px #ffffff03;
+      pointer-events: none;
+    }
+    .eyebrow { text-align:center; color:#aeb9bc; font:10px Arial,sans-serif;
+      letter-spacing:.32em; }
+    .emblem {
+      width: 66px; height: 66px; margin: 27px auto 20px; border:1px solid #9aa6a3;
+      border-radius:50%; display:grid; place-items:center; color:#d7d6c8;
+      font:24px Georgia,serif; position:relative;
+    }
+    .emblem:before { content:""; position:absolute; inset:6px; border:1px solid #9aa6a344; border-radius:50%; }
+    h1 { margin:0; text-align:center; font-size:clamp(26px, 7vw, 34px);
+      font-weight:300; letter-spacing:.18em; color:#f0eee6; }
+    .subtitle { text-align:center; margin:13px 0 30px; color:#aeb9bc;
+      font:10px Arial,sans-serif; letter-spacing:.24em; }
+    .rule { height:1px; background:linear-gradient(90deg,transparent,#65747a,transparent); }
+    .notice { text-align:center; margin:25px 0 8px; color:#d2d4ce;
+      font:12px Arial,sans-serif; letter-spacing:.12em; }
+    .description { text-align:center; color:#8f9a9d; font:11px/1.8 Arial,sans-serif; margin:0 0 25px; }
+    .access-label { text-align:center; margin:25px 0 15px; color:#c0c8c5;
+      font:10px Arial,sans-serif; letter-spacing:.2em; }
+    .code-row { display:flex; justify-content:center; gap:10px; margin:0 auto 14px; }
+    .digit {
+      width:56px; height:60px; border:1px solid #647278; border-radius:2px;
+      background:#0e1519; color:#f1eee3; text-align:center; font:25px Georgia,serif;
+      outline:none; caret-color:#d2d4ce;
+    }
+    .digit:focus { border-color:#d0d1c4; box-shadow:0 0 0 2px #c8d0ca22; }
+    button {
+      display:block; width:min(100%, 270px); margin:20px auto 0; padding:14px 18px;
+      border:1px solid #b9c0b9; background:#c4c9c0; color:#172027;
+      font:10px Arial,sans-serif; letter-spacing:.24em; cursor:pointer;
+    }
+    button:hover { background:#e0e2d9; }
+    .message { min-height:20px; text-align:center; margin:13px 0 0;
+      color:#e0b5a9; font:11px Arial,sans-serif; }
+    .bottom { margin-top:28px; display:flex; justify-content:space-between; gap:10px;
+      color:#829095; font:9px Arial,sans-serif; letter-spacing:.13em; }
+    .fineprint { margin:17px 0 0; text-align:center; color:#647176;
+      font:9px Arial,sans-serif; letter-spacing:.12em; }
+    #content { display:none; margin-top:22px; }
+    #content h2 { text-align:center; color:#e7e8df; font:18px Georgia,serif; letter-spacing:.12em; }
+    .pdf-frame { width:100%; height:78vh; min-height:520px; border:1px solid #647278; background:white; }
+    .open-pdf { color:#d0d7d2; display:block; text-align:center; margin:12px; font:12px Arial,sans-serif; }
+    @media(max-width:380px) { .panel{padding:34px 20px 25px}.digit{width:49px;height:55px} }
+
+    .reveal {
+      position:fixed; inset:0; z-index:10; display:none; overflow:hidden;
+      background:#080d0c; color:#f2ead7; perspective:900px;
+    }
+    .reveal.active { display:block; }
+    .track-scene {
+      position:absolute; inset:0; overflow:hidden;
+      background:
+        linear-gradient(180deg,#8a9a9a 0%,#b7b9a8 35%,#687b56 36%,#315333 100%);
+      transform-origin:50% 60%;
+    }
+    .track-scene:before {
+      content:""; position:absolute; left:-30%; right:-30%; bottom:-34%;
+      height:82%; border-radius:50% 50% 0 0;
+      background:repeating-linear-gradient(0deg,#2b633b 0 9px,#285a36 10px 18px);
+      transform:perspective(500px) rotateX(16deg);
+      box-shadow:0 -12px 45px #152b1c88;
+    }
+    .track-horizon {
+      position:absolute; left:0; right:0; top:35%; height:2px;
+      background:#e5d8b866; box-shadow:0 0 25px #f5e5c088;
+    }
+    .gate-frame {
+      position:absolute; inset:0; pointer-events:none;
+    }
+    .gate-roof {
+      position:absolute; top:-4%; left:0; right:0; height:19%;
+      background:linear-gradient(180deg,#202a2d,#465052 55%,#151c1e);
+      border-bottom:5px solid #11191b;
+      box-shadow:0 10px 22px #0008;
+    }
+    .gate-side {
+      position:absolute; top:10%; bottom:-8%; width:13%;
+      background:repeating-linear-gradient(90deg,#11191b 0 7px,#596366 8px 12px,#20292c 13px 20px);
+      border:3px solid #11191b;
+      box-shadow:inset 0 0 12px #000a,0 0 20px #0008;
+    }
+    .gate-side.left { left:-3%; transform:skewY(5deg); }
+    .gate-side.right { right:-3%; transform:skewY(-5deg); }
+    .gate-door {
+      position:absolute; top:13%; bottom:7%; width:50%;
+      background:
+        repeating-linear-gradient(90deg,transparent 0 22px,#121a1c 23px 29px,transparent 30px 45px),
+        linear-gradient(180deg,#879092,#344044 48%,#182225);
+      border:4px solid #141c1e;
+      box-shadow:inset 0 0 25px #0009,0 0 22px #0008;
+      transform-style:preserve-3d;
+    }
+    .gate-door.left { left:0; transform-origin:left center; }
+    .gate-door.right { right:0; transform-origin:right center; }
+    .gate-door:after {
+      content:""; position:absolute; top:0; bottom:0; width:8px;
+      background:linear-gradient(90deg,#aeb8b6,#253033);
+    }
+    .gate-door.left:after { right:0; }
+    .gate-door.right:after { left:0; }
+    .gate-view-label {
+      position:absolute; z-index:2; top:8%; left:50%; transform:translateX(-50%);
+      color:#f3ead6; text-align:center; white-space:nowrap;
+      font:10px Arial,sans-serif; letter-spacing:.28em;
+      text-shadow:0 2px 8px #000;
+    }
+    .race-ready {
+      position:absolute; z-index:4; left:50%; top:45%; transform:translate(-50%,-50%);
+      text-align:center; width:90%; opacity:0;
+      text-shadow:0 2px 12px #000a;
+    }
+    .race-ready strong {
+      display:block; color:#fff1d0; font:clamp(22px,6vw,36px) Georgia,serif;
+      font-weight:400; letter-spacing:.24em;
+    }
+    .race-ready span {
+      display:block; margin-top:12px; color:#e4d8b8;
+      font:10px Arial,sans-serif; letter-spacing:.28em;
+    }
+    .race-flash {
+      position:absolute; inset:0; z-index:5; background:#fff4d8;
+      opacity:0; pointer-events:none;
+    }
+    .reveal.active .race-ready { animation: readyIn .55s .2s ease forwards; }
+    .reveal.open .gate-door.left { animation: gateLeft .65s cubic-bezier(.2,.8,.2,1) forwards; }
+    .reveal.open .gate-door.right { animation: gateRight .65s cubic-bezier(.2,.8,.2,1) forwards; }
+    .reveal.open .track-scene { animation: horseCharge 1.25s .28s cubic-bezier(.3,.05,.7,.2) forwards; }
+    .reveal.open .race-ready { animation: readyOut .22s ease forwards; }
+    .reveal.open .race-flash { animation: startFlash .35s .15s ease-out forwards; }
+    .reveal.finish { animation: sceneFade .45s ease forwards; }
+    @keyframes readyIn { to { opacity:1; } }
+    @keyframes readyOut { to { opacity:0; transform:translate(-50%,-58%) scale(1.08); } }
+    @keyframes gateLeft { to { transform:rotateY(-105deg); } }
+    @keyframes gateRight { to { transform:rotateY(105deg); } }
+    @keyframes horseCharge {
+      0% { transform:scale(1); filter:brightness(1); }
+      100% { transform:scale(1.45) translateY(5%); filter:brightness(1.18); }
+    }
+    @keyframes startFlash { 0% { opacity:.8; } 100% { opacity:0; } }
+    @keyframes sceneFade { to { opacity:0; visibility:hidden; } }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-title,.reveal-glow,.reveal-line,.reveal.open .door.left,.reveal.open .door.right,.reveal.open {
+        animation-duration:.01ms !important; animation-delay:0ms !important;
+      }
+    }
+
+  </style>
 </head>
 <body>
-  <main class="card">
-    <section id="loginArea">
-      <div class="lock">🔒</div>
-      <h1>PHOTO GALLERY</h1>
-      <p class="sub">写真を見るにはパスワードを入力してください</p>
-      <input id="password" type="password" inputmode="numeric"
-             placeholder="パスワード" autocomplete="off">
-      <button onclick="unlock()">写真を見る</button>
-      <div id="error"></div>
-      <p class="note">QRコードからアクセスありがとうございます。</p>
+
+  <div class="reveal" id="reveal" aria-hidden="true">
+    <div class="track-scene">
+      <div class="track-horizon"></div>
+      <div class="gate-view-label">STARTING GATE · HORSE POV</div>
+      <div class="gate-frame">
+        <div class="gate-roof"></div>
+        <div class="gate-side left"></div>
+        <div class="gate-side right"></div>
+        <div class="gate-door left"></div>
+        <div class="gate-door right"></div>
+      </div>
+      <div class="race-ready">
+        <strong>READY</strong>
+        <span>THE MOMENT BEFORE THE START</span>
+      </div>
+    </div>
+    <div class="race-flash"></div>
+  </div>
+
+  <main class="wrap">
+    <section class="panel" id="gate">
+      <div class="eyebrow">PRIVATE ACCESS · GUEST PORTAL</div>
+      <div class="emblem">A</div>
+      <h1>GUEST<br>ACCESS</h1>
+      <div class="subtitle">A PRIVATE EVENT EXPERIENCE</div>
+      <div class="rule"></div>
+      <div class="notice">WELCOME</div>
+      <p class="description">このページは招待された方専用です。<br>アクセスコードを入力してお進みください。</p>
+      <div class="rule"></div>
+      <div class="access-label">ENTER YOUR ACCESS CODE</div>
+      <div class="code-row" aria-label="4桁のアクセスコード">
+        <input class="digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="1桁目" autocomplete="one-time-code">
+        <input class="digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="2桁目">
+        <input class="digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="3桁目">
+        <input class="digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="4桁目">
+      </div>
+      <button id="enter">VERIFY &amp; ENTER</button>
+      <div class="message" id="message" role="status"></div>
+      <div class="bottom"><span>GUEST AUTHENTICATION</span><span>AUTHORIZED ENTRY ONLY</span></div>
     </section>
 
-    <section id="photoArea">
-      <h1>PHOTO</h1>
-      <p class="sub">SPECIAL PHOTO</p>
-      <img src="photo.jpeg" alt="写真">
-      <button class="back" onclick="lockAgain()">🔒 ロックする</button>
+    <section id="content">
+      <h2>WELCOME</h2>
+      <iframe class="pdf-frame" src="derby-latest.pdf" title="イベント資料"></iframe>
+      <a class="open-pdf" href="derby-latest.pdf" target="_blank" rel="noopener">資料が表示されない場合はこちら</a>
     </section>
+    <p class="fineprint">ACCESS IS RESTRICTED TO INVITED GUESTS</p>
   </main>
-
-<script>
-  // デモ用パスワード：1234
-  // 本番で変更するときは、下の "1234" を好きな文字列に変更してください。
-  const PASSWORD = "1234";
-
-  function unlock() {
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-
-    if (input.value === PASSWORD) {
-      document.getElementById("loginArea").style.display = "none";
-      document.getElementById("photoArea").style.display = "block";
-      error.textContent = "";
-      input.value = "";
-      window.scrollTo({top: 0, behavior: "smooth"});
-    } else {
-      error.textContent = "パスワードが違います。";
-      input.select();
+  <script>
+    const fields = [...document.querySelectorAll(".digit")];
+    fields.forEach((field, i) => {
+      field.addEventListener("input", () => {
+        field.value = field.value.replace(/\D/g, "").slice(-1);
+        if (field.value && i < fields.length - 1) fields[i + 1].focus();
+      });
+      field.addEventListener("keydown", e => {
+        if (e.key === "Backspace" && !field.value && i > 0) fields[i - 1].focus();
+        if (e.key === "Enter") verify();
+      });
+    });
+    function verify() {
+      const code = fields.map(f => f.value).join("");
+      const message = document.getElementById("message");
+      if (code === "1122") {
+        fields.forEach(f => f.disabled = true);
+        document.getElementById("enter").disabled = true;
+        document.getElementById("gate").style.display = "none";
+        document.querySelector(".fineprint").style.display = "none";
+        const reveal = document.getElementById("reveal");
+        reveal.classList.add("active");
+        // Hold the first-person view in the starting stall, then release the gates.
+        window.setTimeout(() => {
+          reveal.classList.add("open");
+          window.setTimeout(() => {
+            reveal.classList.add("finish");
+            window.setTimeout(() => {
+              reveal.style.display = "none";
+              document.getElementById("content").style.display = "block";
+              document.title = "WELCOME";
+              window.scrollTo({top: 0, behavior: "smooth"});
+            }, 480);
+          }, 1550);
+        }, 1450);
+      } else {
+        message.textContent = "ACCESS CODE NOT VALID. PLEASE TRY AGAIN.";
+        fields.forEach(f => f.value = "");
+        fields[0].focus();
+      }
     }
-  }
-
-  function lockAgain() {
-    document.getElementById("photoArea").style.display = "none";
-    document.getElementById("loginArea").style.display = "block";
-  }
-
-  document.getElementById("password").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") unlock();
-  });
-</script>
+    document.getElementById("enter").addEventListener("click", verify);
+    fields[0].focus();
+  </script>
 </body>
 </html>
