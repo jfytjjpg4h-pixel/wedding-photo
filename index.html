@@ -66,110 +66,156 @@
       color:#829095; font:9px Arial,sans-serif; letter-spacing:.13em; }
     .fineprint { margin:17px 0 0; text-align:center; color:#647176;
       font:9px Arial,sans-serif; letter-spacing:.12em; }
-    #content { display:none; margin-top:22px; }
-    #content h2 { text-align:center; color:#e7e8df; font:18px Georgia,serif; letter-spacing:.12em; }
-    .pdf-frame { width:100%; height:78vh; min-height:520px; border:1px solid #647278; background:white; }
-    .open-pdf { color:#d0d7d2; display:block; text-align:center; margin:12px; font:12px Arial,sans-serif; }
+    #content { display:none; width:min(100%, 1100px); margin:24px auto 0; }
+    #content h2 { text-align:center; color:#e7e8df; font:18px Georgia,serif; letter-spacing:.16em; margin:0 0 14px; }
+    .profile-image-link { display:block; width:100%; line-height:0; background:#fff; }
+    .profile-image { display:block; width:100%; height:auto; max-width:100%; object-fit:contain; }
+    .open-pdf { color:#d0d7d2; display:block; text-align:center; margin:14px 0 22px; font:12px Arial,sans-serif; letter-spacing:.08em; }
+    body.content-visible { display:block; padding:18px 12px 28px; }
+    body.content-visible .wrap { width:100%; max-width:1100px; margin:0 auto; }
     @media(max-width:380px) { .panel{padding:34px 20px 25px}.digit{width:49px;height:55px} }
 
     .reveal {
       position:fixed; inset:0; z-index:10; display:none; overflow:hidden;
-      background:#080d0c; color:#f2ead7; perspective:900px;
+      background:#070b0b; color:#f2ead7; perspective:1200px;
     }
     .reveal.active { display:block; }
     .track-scene {
-      position:absolute; inset:0; overflow:hidden;
+      position:absolute; inset:0; overflow:hidden; transform-origin:50% 58%;
       background:
-        linear-gradient(180deg,#8a9a9a 0%,#b7b9a8 35%,#687b56 36%,#315333 100%);
-      transform-origin:50% 60%;
+        linear-gradient(180deg, #697a83 0%, #b5b8ae 31%, #78866a 32%, #344c35 100%);
+      animation: idleCamera 2.8s ease-in-out both;
     }
     .track-scene:before {
-      content:""; position:absolute; left:-30%; right:-30%; bottom:-34%;
-      height:82%; border-radius:50% 50% 0 0;
-      background:repeating-linear-gradient(0deg,#2b633b 0 9px,#285a36 10px 18px);
-      transform:perspective(500px) rotateX(16deg);
-      box-shadow:0 -12px 45px #152b1c88;
+      content:""; position:absolute; left:-38%; right:-38%; bottom:-39%;
+      height:91%; border-radius:50% 50% 0 0;
+      background:
+        repeating-linear-gradient(0deg, #315b38 0 3px, #2d5535 4px 8px),
+        linear-gradient(#426c42,#1d3c29);
+      transform:perspective(700px) rotateX(18deg);
+      box-shadow:0 -16px 55px #17271d99;
+    }
+    .track-scene:after {
+      content:""; position:absolute; left:0; right:0; top:27%; height:16%;
+      opacity:.62;
+      background:
+        radial-gradient(ellipse at 12% 100%,#252c2a 0 5%,transparent 5.5%),
+        radial-gradient(ellipse at 22% 100%,#333a36 0 7%,transparent 7.5%),
+        radial-gradient(ellipse at 36% 100%,#242b28 0 6%,transparent 6.5%),
+        radial-gradient(ellipse at 52% 100%,#343a35 0 7%,transparent 7.5%),
+        radial-gradient(ellipse at 69% 100%,#242b28 0 6%,transparent 6.5%),
+        radial-gradient(ellipse at 84% 100%,#333a36 0 7%,transparent 7.5%),
+        linear-gradient(180deg,transparent 0 45%,#59645a 46% 53%,transparent 54%);
+      filter:blur(1px);
     }
     .track-horizon {
-      position:absolute; left:0; right:0; top:35%; height:2px;
-      background:#e5d8b866; box-shadow:0 0 25px #f5e5c088;
+      position:absolute; left:0; right:0; top:34%; height:2px;
+      background:#eee2c477; box-shadow:0 0 28px #f5e5c088;
     }
-    .gate-frame {
-      position:absolute; inset:0; pointer-events:none;
+    .track-rail {
+      position:absolute; z-index:1; top:37%; height:2px; width:78%;
+      background:linear-gradient(90deg,transparent,#d4d0b5aa,transparent);
+      box-shadow:0 0 5px #e4dec488;
     }
+    .track-rail.left { left:-18%; transform:rotate(13deg); transform-origin:left; }
+    .track-rail.right { right:-18%; transform:rotate(-13deg); transform-origin:right; }
+    .gate-frame { position:absolute; inset:0; pointer-events:none; }
     .gate-roof {
-      position:absolute; top:-4%; left:0; right:0; height:19%;
-      background:linear-gradient(180deg,#202a2d,#465052 55%,#151c1e);
-      border-bottom:5px solid #11191b;
-      box-shadow:0 10px 22px #0008;
+      position:absolute; z-index:3; top:-5%; left:-2%; right:-2%; height:20%;
+      background:
+        repeating-linear-gradient(90deg,transparent 0 48px,#11191b55 49px 52px),
+        linear-gradient(180deg,#141c1f,#586164 46%,#252e30 78%,#101719);
+      border-bottom:7px solid #101719;
+      box-shadow:0 13px 30px #000b, inset 0 -3px 0 #89929455;
     }
     .gate-side {
-      position:absolute; top:10%; bottom:-8%; width:13%;
-      background:repeating-linear-gradient(90deg,#11191b 0 7px,#596366 8px 12px,#20292c 13px 20px);
-      border:3px solid #11191b;
-      box-shadow:inset 0 0 12px #000a,0 0 20px #0008;
+      position:absolute; z-index:3; top:9%; bottom:-9%; width:14%;
+      background:
+        repeating-linear-gradient(90deg,#11191b 0 7px,#667174 8px 11px,#20292c 12px 21px),
+        linear-gradient(90deg,#20292c,#758083,#182124);
+      border:4px solid #11191b;
+      box-shadow:inset 0 0 18px #000b,0 0 28px #000a;
     }
     .gate-side.left { left:-3%; transform:skewY(5deg); }
     .gate-side.right { right:-3%; transform:skewY(-5deg); }
     .gate-door {
-      position:absolute; top:13%; bottom:7%; width:50%;
+      position:absolute; z-index:4; top:13%; bottom:7%; width:50%;
       background:
-        repeating-linear-gradient(90deg,transparent 0 22px,#121a1c 23px 29px,transparent 30px 45px),
-        linear-gradient(180deg,#879092,#344044 48%,#182225);
-      border:4px solid #141c1e;
-      box-shadow:inset 0 0 25px #0009,0 0 22px #0008;
+        repeating-linear-gradient(90deg,transparent 0 21px,#101719 22px 29px,transparent 30px 43px),
+        repeating-linear-gradient(0deg,#0000 0 47px,#11191c 48px 53px),
+        linear-gradient(180deg,#9ba4a3 0%,#536064 44%,#1c282b 100%);
+      border:5px solid #141c1e;
+      box-shadow:inset 0 0 32px #000b,0 0 28px #0009;
       transform-style:preserve-3d;
+      backface-visibility:hidden;
     }
     .gate-door.left { left:0; transform-origin:left center; }
     .gate-door.right { right:0; transform-origin:right center; }
     .gate-door:after {
-      content:""; position:absolute; top:0; bottom:0; width:8px;
-      background:linear-gradient(90deg,#aeb8b6,#253033);
+      content:""; position:absolute; top:0; bottom:0; width:10px;
+      background:linear-gradient(90deg,#d0d5d0,#536064 55%,#151d20);
+      box-shadow:0 0 9px #000a;
     }
     .gate-door.left:after { right:0; }
     .gate-door.right:after { left:0; }
     .gate-view-label {
-      position:absolute; z-index:2; top:8%; left:50%; transform:translateX(-50%);
+      position:absolute; z-index:5; top:7%; left:50%; transform:translateX(-50%);
       color:#f3ead6; text-align:center; white-space:nowrap;
       font:10px Arial,sans-serif; letter-spacing:.28em;
-      text-shadow:0 2px 8px #000;
+      text-shadow:0 2px 10px #000;
     }
     .race-ready {
-      position:absolute; z-index:4; left:50%; top:45%; transform:translate(-50%,-50%);
+      position:absolute; z-index:6; left:50%; top:46%; transform:translate(-50%,-50%);
       text-align:center; width:90%; opacity:0;
-      text-shadow:0 2px 12px #000a;
+      text-shadow:0 3px 18px #000d;
     }
     .race-ready strong {
-      display:block; color:#fff1d0; font:clamp(22px,6vw,36px) Georgia,serif;
-      font-weight:400; letter-spacing:.24em;
+      display:block; color:#fff1d0; font:clamp(28px,7vw,48px) Georgia,serif;
+      font-weight:400; letter-spacing:.3em;
     }
     .race-ready span {
-      display:block; margin-top:12px; color:#e4d8b8;
+      display:block; margin-top:13px; color:#e4d8b8;
       font:10px Arial,sans-serif; letter-spacing:.28em;
     }
-    .race-flash {
-      position:absolute; inset:0; z-index:5; background:#fff4d8;
-      opacity:0; pointer-events:none;
+    .countdown {
+      position:absolute; z-index:7; left:50%; top:58%; transform:translate(-50%,-50%);
+      color:#fff4d9; font:clamp(42px,12vw,72px) Georgia,serif;
+      text-shadow:0 3px 20px #000; opacity:0;
     }
-    .reveal.active .race-ready { animation: readyIn .55s .2s ease forwards; }
-    .reveal.open .gate-door.left { animation: gateLeft .65s cubic-bezier(.2,.8,.2,1) forwards; }
-    .reveal.open .gate-door.right { animation: gateRight .65s cubic-bezier(.2,.8,.2,1) forwards; }
-    .reveal.open .track-scene { animation: horseCharge 1.25s .28s cubic-bezier(.3,.05,.7,.2) forwards; }
-    .reveal.open .race-ready { animation: readyOut .22s ease forwards; }
-    .reveal.open .race-flash { animation: startFlash .35s .15s ease-out forwards; }
-    .reveal.finish { animation: sceneFade .45s ease forwards; }
+    .race-flash { position:absolute; inset:0; z-index:8; background:#fff4d8; opacity:0; pointer-events:none; }
+    .reveal.active .race-ready { animation: readyIn .8s 1.1s ease forwards; }
+    .reveal.counting .race-ready { animation: readyOut .45s ease forwards; }
+    .reveal.counting .countdown { animation: countPulse .85s ease both; }
+    .reveal.open .gate-door.left { animation: gateLeft .9s cubic-bezier(.18,.78,.18,1) forwards; }
+    .reveal.open .gate-door.right { animation: gateRight .9s cubic-bezier(.18,.78,.18,1) forwards; }
+    .reveal.open .track-scene { animation: horseCharge 1.65s .12s cubic-bezier(.25,.02,.7,.2) forwards; }
+    .reveal.open .race-flash { animation: startFlash .65s .05s ease-out forwards; }
+    .reveal.finish { animation: sceneFade .65s ease forwards; }
+    @keyframes idleCamera {
+      0% { transform:scale(1.025) translateY(0); }
+      45% { transform:scale(1.04) translateY(-.35%); }
+      100% { transform:scale(1.025) translateY(0); }
+    }
     @keyframes readyIn { to { opacity:1; } }
     @keyframes readyOut { to { opacity:0; transform:translate(-50%,-58%) scale(1.08); } }
-    @keyframes gateLeft { to { transform:rotateY(-105deg); } }
-    @keyframes gateRight { to { transform:rotateY(105deg); } }
-    @keyframes horseCharge {
-      0% { transform:scale(1); filter:brightness(1); }
-      100% { transform:scale(1.45) translateY(5%); filter:brightness(1.18); }
+    @keyframes countPulse {
+      0% { opacity:0; transform:translate(-50%,-45%) scale(.72); }
+      22% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+      78% { opacity:1; transform:translate(-50%,-50%) scale(1); }
+      100% { opacity:0; transform:translate(-50%,-55%) scale(1.18); }
     }
-    @keyframes startFlash { 0% { opacity:.8; } 100% { opacity:0; } }
+    @keyframes gateLeft { 0% { transform:rotateY(0); } 100% { transform:rotateY(-112deg); } }
+    @keyframes gateRight { 0% { transform:rotateY(0); } 100% { transform:rotateY(112deg); } }
+    @keyframes horseCharge {
+      0% { transform:scale(1.025) translateY(0); filter:brightness(1); }
+      20% { transform:scale(1.06) translateY(.5%); }
+      100% { transform:scale(1.62) translateY(7%); filter:brightness(1.22); }
+    }
+    @keyframes startFlash { 0% { opacity:.65; } 100% { opacity:0; } }
     @keyframes sceneFade { to { opacity:0; visibility:hidden; } }
     @media (prefers-reduced-motion: reduce) {
-      .reveal-title,.reveal-glow,.reveal-line,.reveal.open .door.left,.reveal.open .door.right,.reveal.open {
+      .track-scene,.race-ready,.reveal.open .gate-door.left,.reveal.open .gate-door.right,
+      .reveal.open .track-scene,.reveal.open .race-flash,.reveal.finish {
         animation-duration:.01ms !important; animation-delay:0ms !important;
       }
     }
@@ -193,6 +239,7 @@
         <strong>READY</strong>
         <span>THE MOMENT BEFORE THE START</span>
       </div>
+      <div class="countdown" id="countdown" aria-live="off">3</div>
     </div>
     <div class="race-flash"></div>
   </div>
@@ -220,9 +267,11 @@
     </section>
 
     <section id="content">
-      <h2>WELCOME</h2>
-      <iframe class="pdf-frame" src="derby-latest.pdf" title="イベント資料"></iframe>
-      <a class="open-pdf" href="derby-latest.pdf" target="_blank" rel="noopener">資料が表示されない場合はこちら</a>
+      <h2>HUMAN DERBY</h2>
+      <a class="profile-image-link" href="derby-latest.pdf" target="_blank" rel="noopener" aria-label="プロフィール資料を拡大して開く">
+        <img class="profile-image" src="derby-preview.jpg" alt="人間ダービー出走者6名のプロフィール一覧">
+      </a>
+      <a class="open-pdf" href="derby-latest.pdf" target="_blank" rel="noopener">TAP TO OPEN FULL-SIZE DOCUMENT</a>
     </section>
     <p class="fineprint">ACCESS IS RESTRICTED TO INVITED GUESTS</p>
   </main>
@@ -238,29 +287,52 @@
         if (e.key === "Enter") verify();
       });
     });
+    let verifying = false;
     function verify() {
+      if (verifying) return;
       const code = fields.map(f => f.value).join("");
       const message = document.getElementById("message");
       if (code === "1122") {
+        verifying = true;
         fields.forEach(f => f.disabled = true);
         document.getElementById("enter").disabled = true;
         document.getElementById("gate").style.display = "none";
         document.querySelector(".fineprint").style.display = "none";
         const reveal = document.getElementById("reveal");
+        const countdown = document.getElementById("countdown");
         reveal.classList.add("active");
-        // Hold the first-person view in the starting stall, then release the gates.
+
+        // Hold the horse's-eye view inside the stall, then run a short 3-2-1 start sequence.
         window.setTimeout(() => {
-          reveal.classList.add("open");
+          reveal.classList.add("counting");
+          let number = 3;
+          countdown.textContent = number;
+          const countTimer = window.setInterval(() => {
+            number -= 1;
+            if (number > 0) {
+              countdown.textContent = number;
+            } else {
+              window.clearInterval(countTimer);
+              countdown.textContent = "GO!";
+              window.setTimeout(() => {
+                reveal.classList.remove("counting");
+                reveal.classList.add("open");
+              }, 300);
+            }
+          }, 820);
+        }, 3000);
+
+        window.setTimeout(() => {
+          reveal.classList.add("finish");
           window.setTimeout(() => {
-            reveal.classList.add("finish");
-            window.setTimeout(() => {
-              reveal.style.display = "none";
-              document.getElementById("content").style.display = "block";
-              document.title = "WELCOME";
-              window.scrollTo({top: 0, behavior: "smooth"});
-            }, 480);
-          }, 1550);
-        }, 1450);
+            reveal.classList.remove("active");
+            reveal.style.display = "none";
+            document.body.classList.add("content-visible");
+            document.getElementById("content").style.display = "block";
+            document.title = "HUMAN DERBY";
+            window.scrollTo({top: 0, behavior: "instant"});
+          }, 650);
+        }, 7800);
       } else {
         message.textContent = "ACCESS CODE NOT VALID. PLEASE TRY AGAIN.";
         fields.forEach(f => f.value = "");
