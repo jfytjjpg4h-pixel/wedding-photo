@@ -70,6 +70,9 @@
     #content h2 { text-align:center; color:#e7e8df; font:18px Georgia,serif; letter-spacing:.16em; margin:0 0 14px; }
     .profile-image-link { display:block; width:100%; line-height:0; background:#fff; }
     .profile-image { display:block; width:100%; height:auto; max-width:100%; object-fit:contain; }
+    .guide-section { margin:34px auto 0; width:100%; }
+    .guide-section h2 { margin:0 0 14px; }
+    .guide-image { display:block; width:100%; height:auto; max-width:100%; margin:0 auto 18px; }
     .open-pdf { color:#d0d7d2; display:block; text-align:center; margin:14px 0 22px; font:12px Arial,sans-serif; letter-spacing:.08em; }
     body.content-visible { display:block; padding:18px 12px 28px; }
     body.content-visible .wrap { width:100%; max-width:1100px; margin:0 auto; }
@@ -185,7 +188,7 @@
     .race-flash { position:absolute; inset:0; z-index:8; background:#fff4d8; opacity:0; pointer-events:none; }
     .reveal.active .race-ready { animation: readyIn .8s 1.1s ease forwards; }
     .reveal.counting .race-ready { animation: readyOut .45s ease forwards; }
-    .reveal.counting .countdown { animation: countPulse .85s ease both; }
+    .reveal.counting .countdown.pulse { animation: countPulse .72s ease both; }
     .reveal.open .gate-door.left { animation: gateLeft .9s cubic-bezier(.18,.78,.18,1) forwards; }
     .reveal.open .gate-door.right { animation: gateRight .9s cubic-bezier(.18,.78,.18,1) forwards; }
     .reveal.open .track-scene { animation: horseCharge 1.65s .12s cubic-bezier(.25,.02,.7,.2) forwards; }
@@ -272,6 +275,12 @@
         <img class="profile-image" src="derby-preview.jpg" alt="人間ダービー出走者6名のプロフィール一覧">
       </a>
       <a class="open-pdf" href="derby-latest.pdf" target="_blank" rel="noopener">TAP TO OPEN FULL-SIZE DOCUMENT</a>
+
+      <div class="guide-section">
+        <h2>RULES &amp; CHALLENGES</h2>
+        <img class="guide-image" src="rules-explanation.jpg" alt="人間ダービーのルール説明">
+        <img class="guide-image" src="challenge-guide.jpg" alt="4種目の競技内容の紹介">
+      </div>
     </section>
     <p class="fineprint">ACCESS IS RESTRICTED TO INVITED GUESTS</p>
   </main>
@@ -306,18 +315,21 @@
         window.setTimeout(() => {
           reveal.classList.add("counting");
           let number = 3;
-          countdown.textContent = number;
+          const showNumber = value => {
+            countdown.textContent = value;
+            countdown.classList.remove("pulse");
+            void countdown.offsetWidth;
+            countdown.classList.add("pulse");
+          };
+          showNumber(number);
           const countTimer = window.setInterval(() => {
             number -= 1;
             if (number > 0) {
-              countdown.textContent = number;
+              showNumber(number);
             } else {
               window.clearInterval(countTimer);
-              countdown.textContent = "GO!";
-              window.setTimeout(() => {
-                reveal.classList.remove("counting");
-                reveal.classList.add("open");
-              }, 300);
+              reveal.classList.remove("counting");
+              reveal.classList.add("open");
             }
           }, 820);
         }, 3000);
